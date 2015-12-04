@@ -10,7 +10,7 @@ public class ClienteSocketStream {
 			System.out.println("Creando socket cliente");
 			Socket clientSocket = new Socket();
 			System.out.println("Estableciendo la conexión");
-			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
+			InetSocketAddress addr = new InetSocketAddress("10.4.110.23", 5555);
 			clientSocket.connect(addr);
 			InputStream is = clientSocket.getInputStream();
 			OutputStream os = clientSocket.getOutputStream();
@@ -26,3 +26,4 @@ public class ClienteSocketStream {
 		}
 	}
 }
+// ip fernando -- 10.4.110.23
