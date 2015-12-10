@@ -1,15 +1,13 @@
 package ProgramaChat;
 
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Scanner;
+
 
 /**
  * CLASE ENCARGADA DE LA EJECUCION DEL SERVIDOR DEL NUESTRO "CHAT"
@@ -19,62 +17,63 @@ import java.util.Scanner;
  *         esperando que el cliente le envie un mensaje
  *
  */
+
+
+
 public class ServidorChat {
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		
 		Scanner sc = new Scanner(System.in);
+		String ip = "10.4.110.25";
+		DatagramSocket datagramSocket;
+		byte[] buffer = new byte[25];
+		DatagramPacket datagrama1 = new DatagramPacket(buffer, buffer.length);
+		
+		InetAddress addr = InetAddress.getByName(ip);
+		
+		datagramSocket = new DatagramSocket(5556);
 		String fin = "";
-		while (!fin.equals("FIN")) {
-			/**
-			 * SE RECIBEN MENSAJES:
-			 */
-			try {
-				// se crea el socketDatagram y se recibe el mensaje del cliente
-				System.out.println("Creando el socket datagram");
-				InetSocketAddress addr = new InetSocketAddress("localhost",
-						5556);// ponemos nuestra ip en vez de localhost(ip de la
-								// maquina servidor)
-				DatagramSocket datagramSocket = new DatagramSocket(addr);
-				System.out.println("Recibiendo mensaje....");
-				byte[] mensaje = new byte[25];
-				DatagramPacket datagrama1 = new DatagramPacket(mensaje, 25);
-				datagramSocket.receive(datagrama1);
-				fin = new String(mensaje);
-				System.out.println("Mensaje recibido: " + fin);
-
-				datagramSocket.close();//se finaliza el socket
-				System.out.println("Terminado");
-				if (fin.equals("FIN")) {//si la palabra es fin, se para
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+		while(!fin.equals("adios")){
+		try {
+			System.out.println("Recibiendo mensaje");
+			
+			datagramSocket.receive(datagrama1);
+			
+			
+			fin = new String (datagrama1.getData(),0,datagrama1.getLength());
+			
+			System.out.println("Mensaje del Cliente: " + fin);
+			
+			
+			
+			if (fin.equals("adios")){
+				break;
 			}
-
-			/**
-			 * SE ENVIAN MENSAJES:
-			 */
-			try {
-				System.out.println("Creando el socket datagram");
-				DatagramSocket datagramSocket = new DatagramSocket();
-				System.out.println("Enviando mensaje");
-				String mensaje = sc.nextLine();
-				fin = mensaje;
-				// Se pondria la ip del cliente
-				InetAddress addr = InetAddress.getByName("localhost");
-				DatagramPacket datagrama = new DatagramPacket(
-						mensaje.getBytes(), mensaje.getBytes().length, addr,
-						5555);
-				datagramSocket.send(datagrama);// se envia el mensaje
-				System.out.println("Mensaje enviado");
-				System.out.println("Cerrando el socket datagrama");
-				datagramSocket.close();// se cierra el socket
-				System.out.println("Terminado");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			System.out.println("Enviando mensaje");
+			String mensaje = sc.nextLine();
+			
+			buffer = mensaje.getBytes();
+			
+			fin = mensaje;
+			
+			DatagramPacket datagrama = new DatagramPacket(buffer, buffer.length, addr, 5555);
+			
+			datagramSocket.send(datagrama);
+			
+			System.out.println("Mensaje enviado");
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		}
+		
+	
+		datagramSocket.close();
+		System.out.println("Terminado");
+		
 	}
 
 }
