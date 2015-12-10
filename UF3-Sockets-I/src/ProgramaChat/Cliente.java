@@ -21,8 +21,8 @@ public class Cliente {
 		String ip = "10.4.110.23";
 		
 		DatagramSocket datagramSocket = new DatagramSocket(5555);
-		byte[] buffer = new byte[25];
-		DatagramPacket datagrama1 = new DatagramPacket(buffer, buffer.length);
+		byte[] mensajeR = new byte[25];
+		DatagramPacket datagrama1 = new DatagramPacket(mensajeR, mensajeR.length);
 		
 		InetAddress addr = InetAddress.getByName(ip);
 		
@@ -35,11 +35,11 @@ public class Cliente {
 			System.out.println("Enviando mensaje");
 			String mensaje = sc.nextLine();
 			
-			buffer = mensaje.getBytes();
+			mensajeR = mensaje.getBytes();
 			
 			fin = mensaje;
 			
-			DatagramPacket datagrama = new DatagramPacket(buffer, buffer.length, addr, 5556);
+			DatagramPacket datagrama = new DatagramPacket(mensajeR, mensajeR.length, addr, 5556);
 			
 			datagramSocket.send(datagrama);
 			

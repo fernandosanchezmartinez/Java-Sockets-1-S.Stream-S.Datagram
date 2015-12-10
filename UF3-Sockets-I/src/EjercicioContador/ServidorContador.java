@@ -14,13 +14,18 @@ import java.util.Scanner;
 public class ServidorContador {
 
 	public static void main(String[] args) {
-
+/*
 		Scanner sc = new Scanner(System.in);
 		String txt = "";
+		
 		while (!txt.equals("FIN")) {
+		
+		*/
 			/**
 			 * SE RECIBEN MENSAJES:
 			 */
+		
+		/*
 			try {
 				// se crea el socketDatagram y se recibe el mensaje del cliente
 				System.out.println("Creando el socket datagram");
@@ -43,6 +48,7 @@ public class ServidorContador {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			*/
 			
 			/* recivimiento de mensajes mediante sockets stream
 			try {
@@ -78,6 +84,8 @@ public class ServidorContador {
 			 * ejercicio del chat
 			 * 
 			 */
+			
+			/*
 			try {
 				System.out.println("Creando el socket datagram");
 				DatagramSocket datagramSocket = new DatagramSocket();
@@ -97,6 +105,46 @@ public class ServidorContador {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		*/
+
+		try {
+			
+			
+			System.out.println("Creando socket cliente");
+			Socket clientSocket = new Socket();
+			System.out.println("Estableciendo la conexión");
+			InetSocketAddress addr = new InetSocketAddress("10.4.110.23", 5555);
+			clientSocket.connect(addr);
+			InputStream is = clientSocket.getInputStream();
+			OutputStream os = clientSocket.getOutputStream();
+			int letrasTotales= 0;
+			String mensaje = "";
+			while (!mensaje.equals("fin")){
+				
+				
+				
+				byte[] cadena = new byte[25];
+				is.read(cadena);
+				System.out.println("Mensaje recibido: " + new String(cadena));
+				mensaje = new String (cadena.toString());
+				for (int i = 0; i < cadena.length; i++) {
+					if(cadena[i]=='a'){
+						letrasTotales++;
+					}
+				}
+				System.out.println("Enviando mensaje");
+				
+				os.write(letrasTotales);
+				System.out.println("Mensaje enviado");
+				
+			}
+			
+			System.out.println("Cerrando el socket cliente");
+			clientSocket.close();
+			System.out.println("Terminado");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
