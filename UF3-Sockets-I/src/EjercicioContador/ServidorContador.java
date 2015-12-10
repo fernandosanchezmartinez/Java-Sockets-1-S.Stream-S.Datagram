@@ -129,10 +129,13 @@ public class ServidorContador {
 				System.out.println("Mensaje recibido: " + new String(cadena));
 				mensaje = new String (cadena.toString());
 				for (int i = 0; i < cadena.length; i++) {
-					if(cadena[i]=='a'){
+					if(cadena[i]!=' '){
 						letrasTotales++;
 					}
 				}
+				/**
+				 * Enviamos el la cantidad de letras en la cadena
+				 */
 				System.out.println("Enviando mensaje");
 				
 				os.write(letrasTotales);
