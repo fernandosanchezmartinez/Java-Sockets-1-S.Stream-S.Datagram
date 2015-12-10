@@ -43,9 +43,9 @@ public class ServidorChat {
 				fin = new String(mensaje);
 				System.out.println("Mensaje recibido: " + fin);
 
-				datagramSocket.close();// se finaliza el socket
+				datagramSocket.close();//se finaliza el socket
 				System.out.println("Terminado");
-				if (fin.equals("FIN")) {// si la palabra es fin, se para
+				if (fin.equals("FIN")) {//si la palabra es fin, se para
 					break;
 				}
 			} catch (IOException e) {
